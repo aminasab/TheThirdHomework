@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ConsoleApp3
+﻿namespace ConsoleApp3
 {
     internal class Program : PrintPoints
     {
@@ -17,60 +15,61 @@ namespace ConsoleApp3
             Dictionary<string, string> data = new Dictionary<string, string>();
             string outputOfError = "Вы неправильно ввели переменную";
             int a = 0, b = 0, c = 0;
+            CreateStringBuilders();
             Print();
             try
             {
                 try
                 {
-                    a = int.Parse(introducedVariables[0]);
+                    a = int.Parse(variables[0]);
                 }
                 catch (OverflowException exp)
                 {
                     message = exp.Message;
-                    data.Add("aOverflow", introducedVariables[0]);
+                    data.Add("aOverflow", variables[0]);
                     FormatData(Severity.Fatal, message, data);
                 }
                 catch (Exception aException)
                 {
                     Console.WriteLine(outputOfError + " a");
                     message = aException.Message;
-                    data.Add("a", introducedVariables[0]);
+                    data.Add("a", variables[0]);
                     FormatData(Severity.Error, message, data);
                 }
 
                 try
                 {
-                    b = int.Parse(introducedVariables[1]);
+                    b = int.Parse(variables[1]);
                 }
                 catch (OverflowException exp)
                 {
                     message = exp.Message;
-                    data.Add("bOverflow", introducedVariables[1]);
+                    data.Add("bOverflow", variables[1]);
                     FormatData(Severity.Fatal, message, data);
                 }
                 catch (Exception bException)
                 {
                     Console.WriteLine(outputOfError + " b");
                     message = bException.Message;
-                    data.Add("b", introducedVariables[1]);
+                    data.Add("b", variables[1]);
                     FormatData(Severity.Error, message, data);
                 }
 
                 try
                 {
-                    c = int.Parse(introducedVariables[2]);
+                    c = int.Parse(variables[2]);
                 }
                 catch (OverflowException exp)
                 {
                     message = exp.Message;
-                    data.Add("cOverflow", introducedVariables[2]);
+                    data.Add("cOverflow", variables[2]);
                     FormatData(Severity.Fatal, message, data);
                 }
                 catch (Exception cException)
                 {
                     Console.WriteLine(outputOfError + " c");
                     message = cException.Message;
-                    data.Add("c", introducedVariables[2]);
+                    data.Add("c", variables[2]);
                     FormatData(Severity.Error, message, data);
                 }
                 finally

@@ -1,25 +1,44 @@
-﻿internal class PrintPoints
+﻿using System.Text;
+
+internal class PrintPoints
 {
-    protected static int origRow;
-    protected static int origCol;
-    private static int selectedValue = 0;
-    static string[] strings = new string[] { "a:", "b:", "c:" };
-    static string[] variables = new string[] { "a", "+b", "+c" };
-    public static string[] introducedVariables = new string[] { "", "", "" };
+    static int origRow;
+    static int origCol;
+    static int selectedValue = 0;
+    static string[] strings = new string[3] { "a:", "b:", "c:" };
+    public static string[] variables = new string[3] { "a", "+b", "+c" };
+    static string[] introducedVariables = new string[3] { "", "", "" };
+    static ConsoleKeyInfo ki;
+    static StringBuilder[] stringBuilders = new StringBuilder[3];
 
     /// <summary>
     /// Вывод уравнения и его переменных на консоль. 
     /// </summary>
+    public static void CreateStringBuilders()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            stringBuilders[i] = new StringBuilder();
+        }
+    }
+
+    /// <summary>
+    /// Метод, который перезаписывает массивы.
+    /// </summary>
+    private static void ArrayOverwriting()
+    {
+        introducedVariables[selectedValue] = stringBuilders[selectedValue].ToString();
+        variables[selectedValue] = stringBuilders[selectedValue].ToString();
+    }
+
     public static void Print()
     {
         origRow = Console.CursorTop;
         origCol = Console.CursorLeft;
-        ConsoleKeyInfo ki;
         do
         {
             PrintMenu();
             WriteAt(5, selectedValue + 1);
-            ki = Console.ReadKey();
             switch (ki.Key)
             {
                 case ConsoleKey.UpArrow:
@@ -49,11 +68,11 @@
         {
             if (variables[1].Contains('-'))
             {
-                Console.WriteLine($"{variables[0]}*x^2{variables[1]}*x{variables[2]}=0");
+                Console.WriteLine($"{variables[0]}*x^2{variables[1]}*x+c=0");
             }
             else
             {
-                Console.WriteLine($"{variables[0]}*x^2+{variables[1]}*x{variables[2]}=0");
+                Console.WriteLine($"{variables[0]}*x^2+{variables[1]}*x+c=0");
             }
         }
         for (var i = 0; i < strings.Length; i++)
@@ -70,8 +89,22 @@
         try
         {
             Console.SetCursorPosition(origCol + x, origRow + y);
-            variables[selectedValue] = Console.ReadLine();
-            introducedVariables[selectedValue] = variables[selectedValue];
+            do
+            {
+                ki = Console.ReadKey();
+                if (ki.Key != ConsoleKey.DownArrow & ki.Key != ConsoleKey.UpArrow & ki.Key != ConsoleKey.Enter & ki.Key != ConsoleKey.Delete)
+                {
+                    stringBuilders[selectedValue].Append(ki.KeyChar.ToString());
+                    ArrayOverwriting();
+                }
+                else if (ki.Key == ConsoleKey.Delete)
+                {
+                    stringBuilders[selectedValue].Remove(0, stringBuilders[selectedValue].Length);
+                    ArrayOverwriting();
+                    Console.Clear();
+                    PrintMenu();
+                }
+            } while (ki.Key != ConsoleKey.DownArrow & ki.Key != ConsoleKey.UpArrow & ki.Key != ConsoleKey.Enter & ki.Key != ConsoleKey.Delete);
         }
         catch (ArgumentOutOfRangeException e)
         {
