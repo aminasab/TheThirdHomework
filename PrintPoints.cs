@@ -11,9 +11,6 @@ internal class PrintPoints
     static ConsoleKeyInfo ki;
     static StringBuilder[] stringBuilders = new StringBuilder[3];
 
-    /// <summary>
-    /// Вывод уравнения и его переменных на консоль. 
-    /// </summary>
     public static void CreateStringBuilders()
     {
         for (int i = 0; i < 3; i++)
@@ -31,6 +28,9 @@ internal class PrintPoints
         variables[selectedValue] = stringBuilders[selectedValue].ToString();
     }
 
+    /// <summary>
+    /// Вывод уравнения и его переменных на консоль. 
+    /// </summary>
     public static void Print()
     {
         origRow = Console.CursorTop;
